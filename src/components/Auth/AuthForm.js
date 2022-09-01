@@ -2,6 +2,8 @@ import { useState, useRef } from 'react';
 
 import classes from './AuthForm.module.css';
 
+const API_KEY = process.env.REACT_APP_FIREBASE_API_KEY;
+
 const AuthForm = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
@@ -16,17 +18,14 @@ const AuthForm = () => {
   const submitHandler = (event) => {
     event.preventDefault();
     setIsLoading(true);
-
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
-
+    console.log()
     let url;
     if (isLogin) {
-      url =
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAc2cxXsBoQpufanDcbV00IaYrzPKGdsSY';
+      url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`;
     } else {
-      url =
-        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAc2cxXsBoQpufanDcbV00IaYrzPKGdsSY';
+      url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
     }
     fetch(url, {
       method: 'POST',
