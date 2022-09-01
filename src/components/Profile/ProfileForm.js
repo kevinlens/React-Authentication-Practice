@@ -2,6 +2,8 @@ import { useRef, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import classes from './ProfileForm.module.css';
 import AuthContext from '../../store/auth-context';
+const API_KEY = process.env.REACT_APP_FIREBASE_API_KEY;
+
 const ProfileForm = () => {
   const history = useHistory();
   const newPasswordInputRef = useRef();
@@ -12,7 +14,7 @@ const ProfileForm = () => {
     const enteredNewPassword = newPasswordInputRef.current.value;
 
     fetch(
-      'https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDEUrFXLsMTj4uimaAO4lLOMfhx6ocF5g8',
+      `https://identitytoolkit.googleapis.com/v1/accounts:update?key=${API_KEY}`,
       {
         method: 'POST',
         body: JSON.stringify({

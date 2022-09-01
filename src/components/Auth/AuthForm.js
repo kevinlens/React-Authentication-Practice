@@ -44,14 +44,10 @@ const AuthForm = () => {
     })
       .then((res) => {
         setIsLoading(false);
-        console.log('1');
         if (res.ok) {
-          console.log('1.5');
           return res.json();
         } else {
-          console.log('1.6');
           return res.json().then((data) => {
-            console.log(data);
             let errorMessage = 'Authentication failed!';
             //in case there isn't any other unique errors we resort to this
             if (data && data.error && data.error.message) {
@@ -62,8 +58,15 @@ const AuthForm = () => {
         }
       })
       .then((data) => {
-        authCtx.login(data.idToken);
-        history.replace('/')
+
+        //current time + the countdown time
+        //convert to time object
+        const expirationTime = new Date(
+          new Date().getTime() + data.expiresIn * 1000
+        );
+
+        authCtx.login(data.idToken, expirationTime.toISOString());
+        history.replace('/');
       })
       .catch((err) => {
         alert(err.message);
